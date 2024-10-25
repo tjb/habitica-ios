@@ -123,6 +123,7 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
                 }
             } else if self.isSubscription(productIdentifier) {
                 if !user.isSubscribed || user.purchased?.subscriptionPlan?.dateCreated == nil ||
+                    user.purchased?.subscriptionPlan?.isGifted == true ||
                     (user.purchased?.subscriptionPlan?.customerId == transaction.original?.transactionIdentifier
                      && transaction.original?.transactionIdentifier != transaction.transactionIdentifier
                      && PurchaseHandler.habiticaSubMapping[transaction.payment.productIdentifier] != user.purchased?.subscriptionPlan?.planId) {
