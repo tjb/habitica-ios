@@ -82,7 +82,7 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
     let inventoryRepository = InventoryRepository()
     let configRepository = ConfigRepository.shared
     
-    var onSubscriptionSuccessful: (() -> Void)?
+    var dimissVC: (() -> Void)?
     var onGiftButtonTapped: (() -> Void)?
     
     @Published var presentationPoint: PresentationPoint?
@@ -155,6 +155,7 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
     
     func subscribeTapped() {
         if !PurchaseHandler.shared.isAllowedToMakePurchases() {
+            dismiss()
             return
         }
         withAnimation {
@@ -200,7 +201,7 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
     }
     
     private func dismiss() {
-        if let action = self.onSubscriptionSuccessful {
+        if let action = self.dimissVC {
             action()
         }
     }
@@ -418,7 +419,7 @@ struct SubscriptionPage: View {
                                 .padding(.top, 8)
                                 .padding(.horizontal, 41)
                             }
-                        }.padding(.bottom, 24)
+                        }.padding(.bottom, 12)
                     }
                     SubscriptionBenefitListView(presentationPoint: viewModel.presentationPoint, mysteryGear: viewModel.mysteryGear, mysteryGearSet: viewModel.mysteryGearSet)
                         .padding(.horizontal, 24)
@@ -471,6 +472,9 @@ struct SubscriptionPage: View {
                             .padding(.vertical, 30)
                     }
                     Image(Asset.subscriptionBackground.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity)
                     SubscriptionDisclaimer()
                 } else {
                     Image(uiImage: HabiticaIcons.imageOfHeartLarge)
@@ -503,6 +507,9 @@ struct SubscriptionPage: View {
                         .padding(.horizontal, 32)
                     
                     Image(Asset.subscriptionBackground.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity)
                 }
                     Group {
                         if viewModel.presentationPoint == nil {
@@ -540,6 +547,7 @@ struct SubscriptionPage: View {
             .foregroundColor(textColor)
             .padding(.top, 16)
             .background(backgroundColor.ignoresSafeArea(.all, edges: .top).padding(.bottom, 4))
+            .ignoresSafeArea()
         .cornerRadius([.topLeading, .topTrailing], 12)
     }
 }
@@ -584,8 +592,10 @@ class SubscriptionModalViewController: HostingPanModal<SubscriptionPage> {
     init(presentationPoint: PresentationPoint?) {
         viewModel = SubscriptionViewModel(presentationPoint: presentationPoint)
         super.init(nibName: nil, bundle: nil)
-        viewModel.onSubscriptionSuccessful = {
-            self.dismiss()
+        viewModel.dimissVC = {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.dismiss()
+            })
         }
         
         switch presentationPoint {
@@ -605,6 +615,11 @@ class SubscriptionModalViewController: HostingPanModal<SubscriptionPage> {
     required init?(coder aDecoder: NSCoder) {
         viewModel = SubscriptionViewModel(presentationPoint: nil)
         super.init(coder: aDecoder)
+        viewModel.dimissVC = {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.dismiss()
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -646,9 +661,6 @@ class SubscriptionPageController: UIHostingController<ScrollableSubscriptionPage
     init(presentationPoint: PresentationPoint?) {
         viewModel = SubscriptionViewModel(presentationPoint: presentationPoint)
         super.init(rootView: ScrollableSubscriptionPage(viewModel: viewModel))
-        viewModel.onSubscriptionSuccessful = {
-            self.dismiss()
-        }
         
         switch presentationPoint {
         case .faint:

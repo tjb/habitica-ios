@@ -254,7 +254,7 @@ class GiftSubscriptionViewController: UIHostingController<GiftSubscriptionPage> 
     
     func displayConfirmationDialog() {
         var body = L10n.giftConfirmationBody(viewModel.giftedUser?.profile?.name ?? "", selectedDurationString())
-        if activePromo?.identifier == "g1g1" {
+        if activePromo?.identifier == "g1g1" && viewModel.giftedUser?.id != userRepository.currentUserId {
             body = L10n.giftConfirmationBodyG1g1(viewModel.giftedUser?.profile?.name ?? "", selectedDurationString())
         }
         let alertController = HabiticaAlertController(title: L10n.giftConfirmationTitle, message: body)

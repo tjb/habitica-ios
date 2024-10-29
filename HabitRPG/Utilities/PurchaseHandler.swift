@@ -258,11 +258,15 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
     }
     
     func isAllowedToMakePurchases() -> Bool {
+        #if DEBUG || targetEnvironment(simulator)
+        return false
+        #else
         let testinglevel = ConfigRepository.shared.testingLevel
         if HabiticaAppDelegate.isRunningLive() || testinglevel.isTrustworthy {
             return true
         }
         return false
+        #endif
     }
     
     func isNoRenewSubscription(_ identifier: String) -> Bool {

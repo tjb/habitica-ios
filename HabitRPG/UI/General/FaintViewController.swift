@@ -101,7 +101,7 @@ private class ViewModel: ObservableObject {
             let defaults = UserDefaults.standard
             defaults.set(Date(), forKey: "lastFaintSubBenefit")
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                ToastManager.show(text: L10n.Faint.perkSuccess, color: .subscriberPerk)
+                ToastManager.show(text: L10n.Faint.perkSuccess, color: .subscriberPerk, duration: 4.0)
             }
             onCompleted()
         }
