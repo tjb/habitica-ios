@@ -545,7 +545,7 @@ class MainMenuViewController: BaseTableViewController {
         disposable.inner.add(userRepository.retrieveUser().observeCompleted {
             self.refreshControl?.endRefreshing()
         })
-        disposable.inner.add(contentRepository.retrieveWorldState().observeCompleted {})
+        disposable.inner.add(contentRepository.retrieveWorldState(force: true).observeCompleted {})
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
