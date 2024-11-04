@@ -237,7 +237,7 @@ struct SubscriptionDetailViewUI: View {
                         }
                         Text(L10n.Subscription.monthsSubscribed)
                             .font(.system(size: 13, weight: .semibold))
-                    }
+                    }.frame(maxHeight: .infinity)
                 }
                 DetailContainer(verticalPadding: 14) {
                     VStack(spacing: 6) {
@@ -248,9 +248,10 @@ struct SubscriptionDetailViewUI: View {
                         }
                         Text(L10n.Subscription.monthlyGems)
                             .font(.system(size: 13, weight: .semibold))
-                    }
+                    }.frame(maxHeight: .infinity)
                 }
-            }
+            }.multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             DetailContainer(verticalPadding: 14) {
                 HStack(spacing: 4) {
                     Image(Asset.hourglassBannerLeft.name)

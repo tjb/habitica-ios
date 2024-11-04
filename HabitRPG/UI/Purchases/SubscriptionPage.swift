@@ -165,9 +165,12 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
         withAnimation {
             isSubscribing = true
         }
-        PurchaseHandler.shared.purchaseSubscription(selectedSubscription) {[weak self] _ in
+        PurchaseHandler.shared.purchaseSubscription(selectedSubscription) {[weak self] success in
             withAnimation {
                 self?.isSubscribing = false
+            }
+            if success && self?.presentationPoint != nil {
+                self?.dismiss()
             }
         }
     }
