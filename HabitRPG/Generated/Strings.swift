@@ -62,6 +62,8 @@ public enum L10n {
   public static var beastMasterTitle: String { return L10n.tr("Mainstrings", "beastMasterTitle") }
   /// Beginner Objectives
   public static var beginnerObjectives: String { return L10n.tr("Mainstrings", "beginner_objectives") }
+  /// Birthday
+  public static var birthday: String { return L10n.tr("Mainstrings", "birthday") }
   /// Celebrate Habitica’s 10th birthday with gifts and exclusive items below!
   public static var birthdayHeaderDescription: String { return L10n.tr("Mainstrings", "birthday_header_description") }
   /// This is a limited time event that starts on %s and will end %s. The Limited Edition Jubilant Gryphatrice and ten Magic Hatching Potions will be available to buy during this time. The other Gifts listed in the Four for Free section will be automatically delivered to all accounts that were active in the 30 days prior to day the gift is sent. Accounts created after the gifts are sent will not be able to claim them.
@@ -778,6 +780,8 @@ public enum L10n {
   public static var notRecurring: String { return L10n.tr("Mainstrings", "not_recurring") }
   /// Notes
   public static var notes: String { return L10n.tr("Mainstrings", "notes") }
+  /// New Year's
+  public static var nye: String { return L10n.tr("Mainstrings", "nye") }
   /// OK
   public static var ok: String { return L10n.tr("Mainstrings", "ok") }
   /// Onboarding Tasks
@@ -1202,6 +1206,8 @@ public enum L10n {
   public static var triadBingoTitle: String { return L10n.tr("Mainstrings", "triadBingoTitle") }
   /// Tuesday
   public static var tuesday: String { return L10n.tr("Mainstrings", "tuesday") }
+  /// Turkey Day
+  public static var turkeyDay: String { return L10n.tr("Mainstrings", "turkey_day") }
   /// +2 Gems each month
   public static var twoGemsPerMonth: String { return L10n.tr("Mainstrings", "two_gems_per_month") }
   /// Two-Handed
@@ -1286,6 +1292,8 @@ public enum L10n {
   public static func usuallyXGems(_ p1: Int) -> String {
     return L10n.tr("Mainstrings", "usually_x_gems", p1)
   }
+  /// Valentines
+  public static var valentines: String { return L10n.tr("Mainstrings", "valentines") }
   /// View Achievements
   public static var viewAchievements: String { return L10n.tr("Mainstrings", "view_achievements") }
   /// View Gem Bundles

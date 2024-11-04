@@ -428,6 +428,16 @@ class MainMenuViewController: BaseTableViewController {
             seasonText = L10n.summer
         case "fall":
             seasonText = L10n.fall
+        case "nye":
+            seasonText = L10n.nye
+        case "birthday":
+            seasonText = L10n.birthday
+        case "valentines":
+            seasonText = L10n.valentines
+        case "habitoween":
+            seasonText = "Habitoween"
+        case "thanksgiving":
+            seasonText = L10n.turkeyDay
         default:
             seasonText = L10n.isOpen
         }

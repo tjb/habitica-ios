@@ -1391,6 +1391,10 @@
 "summer" = "Summer";
 "fall" = "Fall";
 "winter" = "Winter";
+"nye" = "New Year's";
+"birthday" = "Birthday";
+"valentines" = "Valentines";
+"turkey_day" = "Turkey Day";
 
 "customization_shop" = "Customization Shop";
 "class_equipment_shop_dialog" = "This item is only available to %s.\nOpen Settings to change class.";
