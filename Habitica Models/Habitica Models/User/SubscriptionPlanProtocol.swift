@@ -74,11 +74,7 @@ public extension SubscriptionPlanProtocol {
     }
     
     var monthsUntilNextHourglass: Int {
-        if isMonthlyRenewal {
-            return 3 - perkMonthCount
-        } else {
-            return (consecutive?.offset ?? 0) + 1
-        }
+        return 1
     }
     
     var isEligableForHourglassPromo: Bool {
@@ -93,7 +89,7 @@ public extension SubscriptionPlanProtocol {
         let now = Date()
         let calendar = Calendar.current
         while (startDate < now) {
-            var newDate = calendar.date(byAdding: .month, value: interval, to: startDate)
+            let newDate = calendar.date(byAdding: .month, value: interval, to: startDate)
             if let date = newDate {
                 startDate = date
             } else {

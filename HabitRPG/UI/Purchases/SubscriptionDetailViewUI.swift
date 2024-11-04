@@ -79,7 +79,7 @@ struct SubscriptionDetailViewUI: View {
     var paymentTypeText: String {
         if plan.isGifted {
             return L10n.Subscription.gifted
-        } else if plan.dateTerminated != nil {
+        } else if plan.dateTerminated != nil || PurchaseHandler.shared.wasSubscriptionCancelled == true {
             return L10n.cancelled
         } else if plan.paymentMethod == "Apple" {
             if let nextEstimatedPayment = plan.nextEstimatedPayment {
@@ -272,24 +272,26 @@ struct SubscriptionDetailViewUI: View {
                     Image(Asset.hourglassBannerRight.name)
                 }
             }
-            DetailContainer(verticalPadding: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Group {
-                        if plan.isGifted {
-                            Text(L10n.continueBenefits)
-                        } else if plan.dateTerminated != nil {
-                            Text(L10n.resubscribe)
-                        } else if plan.paymentMethod == "Apple" {
-                            Text(L10n.editCancelSubscription)
-                        } else {
-                            Text(L10n.cancelSubscription)
+            if !(plan.isGifted && plan.isActive) {
+                DetailContainer(verticalPadding: 16) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Group {
+                            if plan.isGifted {
+                                Text(L10n.continueBenefits)
+                            } else if plan.dateTerminated != nil {
+                                Text(L10n.resubscribe)
+                            } else if plan.paymentMethod == "Apple" {
+                                Text(L10n.editCancelSubscription)
+                            } else {
+                                Text(L10n.cancelSubscription)
+                            }
+                        }.font(.system(size: 15, weight: .semibold))
+                        Text(cancelDescription).font(.system(size: 13))
+                        if let text = cancelButtonText {
+                            HabiticaButtonUI(label: Text(text).foregroundColor(.purple100), color: .yellow100, size: .compact) {
+                                cancelSubscription()
+                            }.padding(.top, 7)
                         }
-                    }.font(.system(size: 15, weight: .semibold))
-                    Text(cancelDescription).font(.system(size: 13))
-                    if let text = cancelButtonText {
-                        HabiticaButtonUI(label: Text(text).foregroundColor(.purple100), color: .yellow100, size: .compact) {
-                            cancelSubscription()
-                        }.padding(.top, 7)
                     }
                 }
             }

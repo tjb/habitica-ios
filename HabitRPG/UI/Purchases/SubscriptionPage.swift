@@ -111,13 +111,17 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
         super.init()
         
         userRepository.getUser().on(value: {[weak self] user in
-            if (self?.scrollToTop == nil && self?.isSubscribed == false && user.isSubscribed) {
-                self?.scrollToTop = Date()
+            if self?.isSubscribed == false && user.isSubscribed {
+                if self?.scrollToTop == nil {
+                    self?.scrollToTop = Date()
+                }
+                if presentationPoint != nil {
+                    self?.dismiss()
+                }
             }
             self?.isSubscribed = user.isSubscribed
             self?.subscriptionPlan = user.purchased?.subscriptionPlan
             self?.showHourglassPromo = user.purchased?.subscriptionPlan?.isEligableForHourglassPromo == true
-
         }).start()
         
         if presentationPoint != nil {
@@ -125,12 +129,12 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
             availableSubscriptions.remove(at: 1)
         }
                 
-        disposable.inner.add(inventoryRepository.getLatestMysteryGear().on(value: { gear in
-            self.mysteryGear = gear
+        disposable.inner.add(inventoryRepository.getLatestMysteryGear().on(value: {[weak self] gear in
+            self?.mysteryGear = gear
         }).start())
         
-        disposable.inner.add(inventoryRepository.getLatestMysteryGearSet().on(value: { set in
-            self.mysteryGearSet = set
+        disposable.inner.add(inventoryRepository.getLatestMysteryGearSet().on(value: {[weak self] set in
+            self?.mysteryGearSet = set
         }).start())
         
         retrieveProductList()
@@ -161,41 +165,9 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
         withAnimation {
             isSubscribing = true
         }
-        SwiftyStoreKit.purchaseProduct(selectedSubscription, atomically: false) { result in
+        PurchaseHandler.shared.purchaseSubscription(selectedSubscription) {[weak self] _ in
             withAnimation {
-                self.isSubscribing = false
-            }
-            switch result {
-            case .success(let product):
-                self.verifyAndSubscribe(product)
-                logger.log("Purchase Success: \(product.productId)")
-            case .error(let error):
-                Analytics.logEvent("purchase_failed", parameters: ["error": error.localizedDescription, "code": error.errorCode])
-
-                logger.log("Purchase Failed: \(error)", level: .error)
-            case .deferred:
-                return
-            }
-        }
-    }
-    
-    func verifyAndSubscribe(_ product: PurchaseDetails) {
-        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: true) { result in
-            switch result {
-            case .success(let receipt):
-                // Verify the purchase of a Subscription
-                if self.isValidSubscription(product.productId, receipt: receipt) {
-                    self.activateSubscription(product.productId, receipt: receipt) { status in
-                        if status {
-                            if product.needsFinishTransaction {
-                                SwiftyStoreKit.finishTransaction(product.transaction)
-                            }
-                        }
-                        self.dismiss()
-                    }
-                }
-            case .error(let error):
-                logger.log("Receipt verification failed: \(error)", level: .error)
+                self?.isSubscribing = false
             }
         }
     }
@@ -229,22 +201,7 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
             return false
         }
     }
-    
-    func activateSubscription(_ identifier: String, receipt: ReceiptInfo, completion: @escaping (Bool) -> Void) {
-        if let lastReceipt = receipt["latest_receipt"] as? String {
-            userRepository.subscribe(sku: identifier, receipt: lastReceipt).observeResult { (result) in
-                switch result {
-                case .success:
-                    completion(true)
-                    self.isSubscribed = true
-                    self.scrollToTop = Date()
-                case .failure:
-                    completion(false)
-                }
-            }
-        }
-    }
-    
+ 
     func checkForExistingSubscription() {
         isRestoringPurchase = true
         SwiftyStoreKit.verifyReceipt(using: self.appleValidator, forceRefresh: true) { result in
@@ -257,11 +214,7 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
                 for purchase in purchases {
                     if let identifier = purchase["product_id"] as? String {
                         if self.isValidSubscription(identifier, receipt: verifiedReceipt) {
-                            self.activateSubscription(identifier, receipt: verifiedReceipt) {status in
-                                if status {
-                                    return
-                                }
-                            }
+                            PurchaseHandler.shared.activateSubscription(identifier, receipt: verifiedReceipt, completion: { _ in })
                         }
                     }
                 }
@@ -319,7 +272,8 @@ struct SubscriptionBenefitListView: View {
         if presentationPoint != .armoire {
             SubscriptionBenefitView(icon: Image(Asset.subBenefitsArmoire.name), title: Text(L10n.Subscription.infoArmoireTitle), description: Text(L10n.Subscription.infoArmoireDescription))
         }
-        SubscriptionBenefitView(icon: Image(Asset.subBenefitDrops.name), title: Text(L10n.subscriptionInfo5Title), description: Text(L10n.subscriptionInfo5Description)).padding(.bottom, 16)
+        SubscriptionBenefitView(icon: Image(Asset.subBenefitDrops.name), title: Text(L10n.subscriptionInfo5Title), description: Text(L10n.subscriptionInfo5Description))
+            .padding(.bottom, 16)
     }
 }
 
@@ -416,10 +370,12 @@ struct SubscriptionPage: View {
                                                 .frame(width: reader.size.width * (CGFloat(viewModel.subscriptionPlan?.gemCapTotal ?? 0) / 50.0), height: 8)
                                     }
                                 }
+                                .frame(height: 8)
                                 .padding(.top, 8)
                                 .padding(.horizontal, 41)
                             }
-                        }.padding(.bottom, 12)
+                        }
+                        .padding(.bottom, 16)
                     }
                     SubscriptionBenefitListView(presentationPoint: viewModel.presentationPoint, mysteryGear: viewModel.mysteryGear, mysteryGearSet: viewModel.mysteryGearSet)
                         .padding(.horizontal, 24)

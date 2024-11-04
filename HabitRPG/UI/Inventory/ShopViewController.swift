@@ -79,6 +79,10 @@ class ShopViewController: BaseCollectionViewController, ShopCollectionViewDataSo
         refresher = HabiticaRefresControl()
         refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
         collectionView.addSubview(refresher)
+        
+        userRepository.getUser().on(value: {[weak self] user in
+            self?.updateNavBar(gold: Int(user.stats?.gold ?? 0.0), gems: user.gemCount, hourglasses: user.purchased?.subscriptionPlan?.consecutive?.hourglasses ?? 0)
+        }).start()
     }
     
     private var isSubscribed: Bool?

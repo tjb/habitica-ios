@@ -179,6 +179,39 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
         }
     }
     
+    func purchaseSubscription(_ identifier: String, completion: @escaping (Bool) -> Void) {
+        SwiftyStoreKit.purchaseProduct(identifier, atomically: false) { result in
+            switch result {
+            case .success(let product):
+                SwiftyStoreKit.verifyReceipt(using: self.appleValidator) { verificationResult in
+                    switch verificationResult {
+                    case .success(let receipt):
+                        if self.isValidSubscription(identifier, receipt: receipt) == true {
+                            self.activateSubscription(identifier, receipt: receipt) { status in
+                                if status {
+                                    SwiftyStoreKit.finishTransaction(product.transaction)
+                                }
+                            }
+                        } else {
+                            SwiftyStoreKit.finishTransaction(product.transaction)
+                        }
+                    case .error(let error):
+                        if error.localizedDescription.contains("Code: 1") {
+                            return
+                        }
+                        self.handle(error: error)
+                    }
+                }
+            case .error(let error):
+                self.handle(error: error)
+                completion(false)
+            case .deferred:
+                completion(false)
+                return
+            }
+        }
+    }
+    
     func verifyPurchase(_ product: PurchaseDetails) {
         SwiftyStoreKit.fetchReceipt(forceRefresh: false) { result in
             switch result {
@@ -210,7 +243,7 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
                         self?.pendingGifts.removeValue(forKey: identifier)
                     }
                     completion(true)
-                    self?.userRepository.retrieveUser().observeCompleted {}
+                    self?.userRepository.retrieveUser(forced: true).observeCompleted {}
                 } else {
                     completion(false)
                 }
@@ -229,7 +262,7 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
             if result != nil {
                 self?.pendingGifts.removeValue(forKey: identifier)
                 completion(true)
-                self?.userRepository.retrieveUser().observeCompleted {}
+                self?.userRepository.retrieveUser(forced: true).observeCompleted {}
             } else {
                 completion(false)
             }
@@ -240,9 +273,17 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
         return PurchaseHandler.IAPIdentifiers.contains(identifier)
     }
     
+    private var isActivatingSubscription = false
     func activateSubscription(_ identifier: String, receipt: ReceiptInfo, completion: @escaping (Bool) -> Void) {
+        if isActivatingSubscription {
+            return
+        }
         if let lastReceipt = receipt["latest_receipt"] as? String {
-            userRepository.subscribe(sku: identifier, receipt: lastReceipt).observeResult { (result) in
+            isActivatingSubscription = true
+            userRepository.subscribe(sku: identifier, receipt: lastReceipt).on(completed: {
+                self.userRepository.retrieveUser(forced: true).observeCompleted {}
+            }).observeResult { (result) in
+                self.isActivatingSubscription = false
                 switch result {
                 case .success:
                     completion(true)
@@ -293,7 +334,7 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
         }
     }
     
-    private func applySubscription(transaction: SKPaymentTransaction) {
+    func applySubscription(transaction: SKPaymentTransaction) {
         if SwiftyStoreKit.localReceiptData == nil {
             return
         }
@@ -336,7 +377,26 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
                 case .expired(expiryDate: _, items: let items):
                     self.processItemsForCancellation(items: items, searchedID: searchedID)
                 default:
-                    return
+                    if #available(iOS 15.0, *) {
+                        Task {
+                            do {
+                                let statuses = try await Product.SubscriptionInfo.status(for: "20345996")
+                                for status in statuses {
+                                    guard case .verified(let renewalInfo) = status.renewalInfo else {
+                                        continue
+                                    }
+                                    let isCancelled = renewalInfo.expirationReason != nil && renewalInfo.expirationReason != .billingError
+                                    if !renewalInfo.willAutoRenew || isCancelled || (renewalInfo.expirationReason == .billingError && !renewalInfo.isInBillingRetry) {
+                                        self.userRepository.cancelSubscription().observeCompleted {
+                                            self.wasSubscriptionCancelled = true
+                                        }
+                                    }
+                                }
+                            } catch let error {
+                                print(error)
+                            }
+                        }
+                    }
                 }
             case .error:
                 return

@@ -48,6 +48,9 @@ public class ContentLocalRepository: BaseLocalRepository {
         content.customizations.forEach({ (customization) in
             newObjects.append(RealmCustomization(customization))
         })
+        content.mystery.forEach({ mysterySet in
+            newObjects.append(RealmGearSet(mysterySet))
+        })
         
         saveMysteryItem()
         
