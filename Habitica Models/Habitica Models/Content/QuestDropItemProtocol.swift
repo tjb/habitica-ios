@@ -28,6 +28,10 @@ public extension QuestDropItemProtocol {
             return "Pet_Food_\(key ?? "")"
         case "hatchingPotions":
             return "Pet_HatchingPotion_\(key ?? "")"
+        case "pets":
+            return "stable_Pet-\(key ?? "")"
+        case "mounts":
+            return "Mount_Head_\(key ?? "")"
         default:
             return "shop_\(key ?? "")"
         }

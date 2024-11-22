@@ -8,6 +8,7 @@
 
 import Foundation
 import Habitica_Models
+import Habitica_Database
 import ReactiveSwift
 
 class EquipmentViewDataSource: BaseReactiveTableViewDataSource<GearProtocol> {
@@ -16,7 +17,28 @@ class EquipmentViewDataSource: BaseReactiveTableViewDataSource<GearProtocol> {
     private let inventoryRepository = InventoryRepository()
     
     private var equippedKey: String?
+    var searchProperty = MutableProperty<String?>(nil)
+    var searchString: String? {
+        get {
+            return searchProperty.value
+        }
+        set(value) {
+            searchProperty.value = value
+        }
+    }
     
+    private func buildGearSignalProducer(keys: [String], gearType: String, search: String?) -> SignalProducer<ReactiveResults<[GearProtocol]>, Never> {
+        let predicate: NSPredicate
+        if let search = search {
+            predicate = NSPredicate(format: "key IN %@ && type == %@ && (text CONTAINS[cd] %@ || notes CONTAINS[cd] %@)", keys, gearType, search, search)
+        } else {
+            predicate = NSPredicate(format: "key IN %@ && type == %@", keys, gearType)
+        }
+        return inventoryRepository.getGear(predicate: predicate).flatMapError({ (_) -> SignalProducer<ReactiveResults<[GearProtocol]>, Never> in
+            return SignalProducer.empty
+        })
+    }
+            
     init(useCostume: Bool, gearType: String) {
         super.init()
         sections.append(ItemSection<GearProtocol>())
@@ -28,15 +50,19 @@ class EquipmentViewDataSource: BaseReactiveTableViewDataSource<GearProtocol> {
                 }).filter({ (key) -> Bool in
                     return !key.isEmpty
                 })
+            }).flatMapError({ (_) -> SignalProducer<[String], Never> in
+                return SignalProducer.empty
             })
-            .flatMap(.latest, {[weak self] (keys) in
-                return self?.inventoryRepository.getGear(predicate: NSPredicate(format: "key IN %@ && type == %@", keys, gearType)) ?? SignalProducer.empty
+            .combineLatest(with: searchProperty.producer)
+            .flatMap(.latest, {[weak self] (keys, search) in
+                return self?.buildGearSignalProducer(keys: keys, gearType: gearType, search: search) ?? SignalProducer.empty
             })
-            .on(value: {[weak self](gear, changes) in
+                .on(value: {[weak self](gear: [GearProtocol], changes: ReactiveChangeset?) in
                 self?.sections[0].items = gear
                 self?.notify(changes: changes)
             })
-            .start())
+            .start()
+        )
         
         disposable.add(userRepository.getUser().on(value: {[weak self]user in
             if useCostume {

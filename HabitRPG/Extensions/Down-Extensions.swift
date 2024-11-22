@@ -88,6 +88,18 @@ extension Down {
             string.replaceCharacters(in: range, with: "\n")
             range = string.mutableString.range(of: "<br>")
         }
+        
+        range = string.mutableString.range(of: "<strong>")
+        let scaledBaseSize = UIFontMetrics.default.scaledSystemFont(ofSize: baseSize).pointSize
+        while range.length > 0 {
+            string.replaceCharacters(in: range, with: "")
+            let endRange = string.mutableString.range(of: "</strong>")
+            string.replaceCharacters(in: endRange, with: "")
+            let boldStart = range.location
+            string.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: scaledBaseSize), range: NSRange(location: boldStart, length: endRange.location - boldStart))
+            
+            range = string.mutableString.range(of: "<strong>")
+        }
     }
     
     private func applyMentions(_ string: NSMutableAttributedString, mentions: [String]) {

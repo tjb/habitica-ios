@@ -115,7 +115,7 @@ class SubscriptionViewModel: BaseSubscriptionViewModel {
                 if self?.scrollToTop == nil {
                     self?.scrollToTop = Date()
                 }
-                if presentationPoint != nil {
+                if self?.presentationPoint != nil {
                     self?.dismiss()
                 }
             }
@@ -553,7 +553,7 @@ class SubscriptionModalViewController: HostingPanModal<SubscriptionPage> {
         super.init(nibName: nil, bundle: nil)
         viewModel.dimissVC = {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                self.dismiss()
+                self.dismiss(animated: true)
             })
         }
         
@@ -576,7 +576,7 @@ class SubscriptionModalViewController: HostingPanModal<SubscriptionPage> {
         super.init(coder: aDecoder)
         viewModel.dimissVC = {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                self.dismiss()
+                self.dismiss(animated: true)
             })
         }
     }
@@ -588,13 +588,7 @@ class SubscriptionModalViewController: HostingPanModal<SubscriptionPage> {
         view.insertSubview(upperBackground, at: 0)
         upperBackground.backgroundColor = .purple300
         scrollView.bounces = false
-        
-        userRepository.getUser().on(value: {[weak self] user in
-            self?.viewModel.isSubscribed = user.isSubscribed
-            self?.viewModel.subscriptionPlan = user.purchased?.subscriptionPlan
-            self?.viewModel.showHourglassPromo = user.purchased?.subscriptionPlan?.isEligableForHourglassPromo == true
-        }).start()
-        
+
         viewModel.onGiftButtonTapped = {[weak self] in
             self?.giftSubscriptionButtonTapped()
         }
