@@ -984,6 +984,11 @@ class TaskFormController: UIHostingController<TaskFormView> {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(leftButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.save, style: .plain, target: self, action: #selector(rightButtonTapped))
+        
+        _ = viewModel.$text.receive(on: DispatchQueue.main)
+            .sink { text in
+                self.navigationItem.rightBarButtonItem?.isEnabled = !text.isEmpty
+            }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -999,6 +1004,9 @@ class TaskFormController: UIHostingController<TaskFormView> {
         
     @objc
     func rightButtonTapped() {
+        if viewModel.text.isEmpty {
+            return
+        }
         self.save()
         self.dismiss(animated: true, completion: nil)
     }
