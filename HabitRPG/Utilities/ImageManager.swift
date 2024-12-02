@@ -60,6 +60,7 @@ class ImageManager {
         "shop_armoire": "gif"
     ]
     
+    @MainActor
     static func setImage(on imageView: NetworkImageView, name: String, extension fileExtension: String = "", completion: ((UIImage?, NSError?) -> Void)? = nil) {
         if imageView.loadedImageName != name {
             imageView.image = nil
