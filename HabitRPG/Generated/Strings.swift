@@ -3203,7 +3203,7 @@ public enum L10n {
     public static var challenges: String { return L10n.tr("Mainstrings", "titles.challenges") }
     /// Choose Recipient
     public static var chooseRecipient: String { return L10n.tr("Mainstrings", "titles.choose_recipient") }
-    /// Choose User
+    /// Choose Member
     public static var chooseUser: String { return L10n.tr("Mainstrings", "titles.choose_user") }
     /// Equipment
     public static var equipment: String { return L10n.tr("Mainstrings", "titles.equipment") }
