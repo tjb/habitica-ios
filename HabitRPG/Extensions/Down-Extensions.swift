@@ -82,14 +82,12 @@ extension Down {
             applyMentions(string, mentions: mentions)
         }
         applyCustomEmoji(string, size: baseSize)
-        
-        var range = string.mutableString.range(of: "<br>")
-        while range.length > 0 {
-            string.replaceCharacters(in: range, with: "\n")
-            range = string.mutableString.range(of: "<br>")
-        }
-        
-        range = string.mutableString.range(of: "<strong>")
+        replaceIn(string: string, characters: "<br>", with: "\n")
+        replaceIn(string: string, characters: "&ensp;", with: " ")
+        replaceIn(string: string, characters: "&emsp;", with: " ")
+        replaceIn(string: string, characters: "&nbsp;", with: " ")
+
+        var range = string.mutableString.range(of: "<strong>")
         let scaledBaseSize = UIFontMetrics.default.scaledSystemFont(ofSize: baseSize).pointSize
         while range.length > 0 {
             string.replaceCharacters(in: range, with: "")
@@ -99,6 +97,14 @@ extension Down {
             string.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: scaledBaseSize), range: NSRange(location: boldStart, length: endRange.location - boldStart))
             
             range = string.mutableString.range(of: "<strong>")
+        }
+    }
+    
+    private func replaceIn(string: NSMutableAttributedString, characters: String, with replacement: String) {
+        var range = string.mutableString.range(of: characters)
+        while range.length > 0 {
+            string.replaceCharacters(in: range, with: replacement)
+            range = string.mutableString.range(of: characters)
         }
     }
     
