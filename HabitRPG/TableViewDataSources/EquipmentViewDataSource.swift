@@ -30,7 +30,15 @@ class EquipmentViewDataSource: BaseReactiveTableViewDataSource<GearProtocol> {
     private func buildGearSignalProducer(keys: [String], gearType: String, search: String?) -> SignalProducer<ReactiveResults<[GearProtocol]>, Never> {
         let predicate: NSPredicate
         if let search = search {
-            predicate = NSPredicate(format: "key IN %@ && type == %@ && (text CONTAINS[cd] %@ || notes CONTAINS[cd] %@)", keys, gearType, search, search)
+            var predicateString = ""
+            for (index, word) in search.split(separator: " ").enumerated() {
+                if index != 0 {
+                    predicateString.append(" || ")
+                }
+                predicateString.append("text CONTAINS[cd] \"\(word)\" || notes CONTAINS[cd] \"\(word)\"")
+            }
+            
+            predicate = NSPredicate(format: "key IN %@ && type == %@ && (\(predicateString))", keys, gearType)
         } else {
             predicate = NSPredicate(format: "key IN %@ && type == %@", keys, gearType)
         }

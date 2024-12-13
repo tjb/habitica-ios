@@ -14,7 +14,6 @@ class EquipmentCell: UITableViewCell {
     @IBOutlet weak var gearImageView: NetworkImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionlabel: UILabel!
-    @IBOutlet weak var twoHandedSpacing: NSLayoutConstraint!
     @IBOutlet weak var twoHandedView: UIView!
     @IBOutlet weak var twoHandedIconView: UIImageView!
     @IBOutlet weak var twoHandedLabel: UILabel!
@@ -52,10 +51,8 @@ class EquipmentCell: UITableViewCell {
         
         if gear.twoHanded {
             twoHandedView.isHidden = false
-            twoHandedSpacing.constant = 28
         } else {
             twoHandedView.isHidden = true
-            twoHandedSpacing.constant = 4
         }
         
         strengthLabel.isHidden = true

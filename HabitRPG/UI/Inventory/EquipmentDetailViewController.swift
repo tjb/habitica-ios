@@ -33,18 +33,15 @@ class EquipmentDetailViewController: BaseTableViewController, UISearchResultsUpd
         searchController.hidesNavigationBarDuringPresentation = false
         navigationItem.backButtonDisplayMode = .minimal
         navigationItem.backButtonTitle = nil
+        navigationItem.title = nil
         if #available(iOS 16.0, *) {
             self.navigationItem.preferredSearchBarPlacement = .inline
-            searchController.scopeBarActivation = .onTextEntry
-            searchController.searchSuggestions = [
-                UISearchSuggestionItem(localizedSuggestion: "Spring Gear"),
-                UISearchSuggestionItem(localizedSuggestion: "Summer Gear"),
-                UISearchSuggestionItem(localizedSuggestion: "Autumn Gear"),
-                UISearchSuggestionItem(localizedSuggestion: "Winter Gear"),
-                UISearchSuggestionItem(localizedSuggestion: "Subscriber Item")
-            ]
+            searchController.scopeBarActivation = .automatic
+            updateSearchSuggestions(withInput: nil)
         }
+        searchController.searchBar.showsCancelButton = false
         searchController.searchResultsUpdater = self
+        tableView.keyboardDismissMode = .onDrag
     }
     
     override func applyTheme(theme: any Theme) {
@@ -67,7 +64,28 @@ class EquipmentDetailViewController: BaseTableViewController, UISearchResultsUpd
         } else {
             datasource?.searchString = nil
         }
+        updateSearchSuggestions(withInput: searchController.searchBar.text)
         self.tableView.reloadData()
+    }
+    
+    func updateSearchSuggestions(withInput input: String?) {
+        if #available(iOS 16.0, *) {
+            let allSuggestions = [
+                UISearchSuggestionItem(localizedSuggestion: "Spring Gear"),
+                UISearchSuggestionItem(localizedSuggestion: "Summer Gear"),
+                UISearchSuggestionItem(localizedSuggestion: "Autumn Gear"),
+                UISearchSuggestionItem(localizedSuggestion: "Winter Gear"),
+                UISearchSuggestionItem(localizedSuggestion: "Subscriber Item"),
+                UISearchSuggestionItem(localizedSuggestion: "Enchanted Armoire")
+            ]
+            if input?.isEmpty ?? true {
+                searchController.searchSuggestions = allSuggestions
+            } else {
+                searchController.searchSuggestions = allSuggestions.filter({ item in
+                    return item.localizedSuggestion?.lowercased().contains(input?.lowercased() ?? "") != false
+                })
+            }
+        }
     }
     
     @available(iOS 16.0, *)
