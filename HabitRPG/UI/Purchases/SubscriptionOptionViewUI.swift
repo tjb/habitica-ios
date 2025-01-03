@@ -100,7 +100,7 @@ struct SubscriptionOptionViewUI<Price: View, Recurring: View, Tag: View>: View {
                             Group {
                                 Text(isGift ? "Unlocks " : "Unlock ") +
                                 Text("\(instantGems) Gems").fontWeight(.bold).foregroundColor(isSelected ? Color.yellow5 : .white) +
-                                Text(" per month instantly")
+                                Text(" per month in the Market")
                             }.multilineTextAlignment(.leading)
                         }.font(.caption)
                             .padding(.top, 8)
