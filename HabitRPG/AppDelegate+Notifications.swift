@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import Habitica_Models
+import FirebaseMessaging
 
 extension HabiticaAppDelegate: UNUserNotificationCenterDelegate {
     
@@ -47,6 +48,8 @@ extension HabiticaAppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         switch response.actionIdentifier {
         case "acceptAction":
             acceptQuestInvitation { _ in
@@ -100,6 +103,8 @@ extension HabiticaAppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         if let taskID = notification.request.content.userInfo["taskID"] as? String {
             let alert = HabiticaAlertController(title: notification.request.content.title, message: notification.request.content.body)
             alert.addAction(title: L10n.complete, isMainAction: true) {[weak self] _ in
@@ -112,10 +117,12 @@ extension HabiticaAppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
         saveDeviceToken(deviceToken)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         displayNotificationInApp(title: userInfo["title"] as? String ?? "", text: userInfo["body"] as? String ?? "")
         completionHandler(.newData)
     }

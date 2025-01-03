@@ -33,9 +33,9 @@ class EquipmentViewDataSource: BaseReactiveTableViewDataSource<GearProtocol> {
             var predicateString = ""
             for (index, word) in search.split(separator: " ").enumerated() {
                 if index != 0 {
-                    predicateString.append(" || ")
+                    predicateString.append(" && ")
                 }
-                predicateString.append("text CONTAINS[cd] \"\(word)\" || notes CONTAINS[cd] \"\(word)\"")
+                predicateString.append("(text CONTAINS[cd] \"\(word)\" || notes CONTAINS[cd] \"\(word)\")")
             }
             
             predicate = NSPredicate(format: "key IN %@ && type == %@ && (\(predicateString))", keys, gearType)

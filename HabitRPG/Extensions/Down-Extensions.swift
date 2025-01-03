@@ -83,8 +83,8 @@ extension Down {
         }
         applyCustomEmoji(string, size: baseSize)
         replaceIn(string: string, characters: "<br>", with: "\n")
-        replaceIn(string: string, characters: "&ensp;", with: " ")
-        replaceIn(string: string, characters: "&emsp;", with: " ")
+        replaceIn(string: string, characters: "&ensp;", with: " ")
+        replaceIn(string: string, characters: "&emsp;", with: " ")
         replaceIn(string: string, characters: "&nbsp;", with: " ")
 
         var range = string.mutableString.range(of: "<strong>")

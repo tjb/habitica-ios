@@ -44,6 +44,8 @@
 	<string>${CUSTOM_DOMAIN}</string>
 	<key>DisableSSL</key>
 	<string>${DISABLE_SSL}</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>

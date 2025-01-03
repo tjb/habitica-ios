@@ -126,7 +126,9 @@ class HabiticaAppDelegate: UIResponder, MessagingDelegate, UIApplicationDelegate
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        
+        if let token = fcmToken {
+            print("Received FCM Token: \(token)")
+        }
     }
     
     func saveDeviceToken(_ deviceToken: Data) {
