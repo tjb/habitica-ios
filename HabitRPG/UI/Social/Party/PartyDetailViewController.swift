@@ -78,6 +78,7 @@ class PartyDetailViewController: GroupDetailViewController {
         }).start())
         
         disposable.inner.add(groupProperty.producer.skipNil()
+            .filter({ $0.isValid })
             .map({ (group) -> String? in
                 return group.id
             })
