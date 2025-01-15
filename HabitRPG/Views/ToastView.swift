@@ -179,7 +179,7 @@ class ToastView: UIView {
         
         var body: some View {
             EmptyView()
-                .confettiCannon(counter: $counter,
+                .confettiCannon(trigger: $counter,
                             num: 5,
                             confettis: [.image(Asset.subscriberStar.name)],
                             colors: [Color(UIColor.yellow100)],

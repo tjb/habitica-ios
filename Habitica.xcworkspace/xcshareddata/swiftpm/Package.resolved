@@ -61,7 +61,7 @@
       "location" : "https://github.com/simibac/ConfettiSwiftUI.git",
       "state" : {
         "branch" : "master",
-        "revision" : "469de4e43949815dc92570cc786922d8d1385b06"
+        "revision" : "d19c1705fdc8e4eca07f669b7350255602898fc8"
       }
     },
     {
@@ -268,7 +268,7 @@
       "location" : "https://github.com/ReactiveCocoa/ReactiveSwift",
       "state" : {
         "branch" : "master",
-        "revision" : "83fb2959a4439440ce162c89384c3fae78d1b22e"
+        "revision" : "8581f24e9944521975a1b2177a7bb9b95ab803ed"
       }
     },
     {

@@ -247,7 +247,7 @@ struct ArmoireView: View {
             ZStack {
                 if !viewModel.isUsingPerk || viewModel.usedPerk {
                     EmptyView()
-                        .confettiCannon(counter: $confettiCounter,
+                        .confettiCannon(trigger: $confettiCounter,
                                         num: 5,
                                         confettis: [.image(Asset.confettiPill.name)],
                                         colors: [Color(UIColor.yellow100), Color(UIColor.red100), Color(UIColor.blue100), Color(UIColor.purple400)], confettiSize: 10,

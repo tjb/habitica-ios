@@ -72,7 +72,15 @@ class PetDetailViewController: StableDetailViewController<PetDetailDataSource> {
     @IBAction func unwindToFeed(_ segue: UIStoryboardSegue) {
         let feedViewController = segue.source as? FeedViewController
         if let pet = selectedPet, let food = feedViewController?.selectedFood {
-            inventoryRepository.feed(pet: pet, food: food).observeCompleted {}
+            inventoryRepository.feed(pet: pet, food: food).observeCompleted {
+                let defaults = UserDefaults.standard
+                var fedCount = defaults.integer(forKey: "pet_feed_count")
+                fedCount += 1
+                defaults.set(fedCount, forKey: "pet_feed_count")
+                if fedCount >= 2 {
+                    UIApplication.requestReview()
+                }
+            }
         }
     }
     
@@ -92,7 +100,6 @@ class PetDetailViewController: StableDetailViewController<PetDetailDataSource> {
                 let equipString = L10n.equip
                 actions.append(UIAction(title: equipString, handler: {[weak self] _ in
                     self?.inventoryRepository.equip(type: "pet", key: stableItem.pet?.key ?? "").observeCompleted {
-                        UIApplication.requestReview()
                     }
                 }))
             }

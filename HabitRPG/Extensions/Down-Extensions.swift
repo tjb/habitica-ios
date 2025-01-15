@@ -92,9 +92,14 @@ extension Down {
         while range.length > 0 {
             string.replaceCharacters(in: range, with: "")
             let endRange = string.mutableString.range(of: "</strong>")
-            string.replaceCharacters(in: endRange, with: "")
+            if (endRange.isSafe(for: string)) {
+                string.replaceCharacters(in: endRange, with: "")
+            }
             let boldStart = range.location
-            string.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: scaledBaseSize), range: NSRange(location: boldStart, length: endRange.location - boldStart))
+            let boldRange = NSRange(location: boldStart, length: endRange.location - boldStart)
+            if boldRange.isSafe(for: string) {
+                string.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: scaledBaseSize), range: boldRange)
+            }
             
             range = string.mutableString.range(of: "<strong>")
         }

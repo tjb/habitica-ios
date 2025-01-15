@@ -263,6 +263,7 @@
 		29706CB727D911F5006EC139 /* XCUIApplication-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29706CB627D911F5006EC139 /* XCUIApplication-Extensions.swift */; };
 		29706CB827D917CD006EC139 /* tasks.json in Resources */ = {isa = PBXBuildFile; fileRef = 29706CB427D9115C006EC139 /* tasks.json */; };
 		2970CB52227B1A8600FACCB7 /* MarkdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2970CB51227B1A8600FACCB7 /* MarkdownTests.swift */; };
+		29737EEF2D38055000480353 /* NSRange-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29737EEE2D38054C00480353 /* NSRange-Extensions.swift */; };
 		2974BD91208DEFEA00EC1A25 /* CustomizationDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974BD90208DEFEA00EC1A25 /* CustomizationDetailCell.swift */; };
 		2974BDAD208F68A800EC1A25 /* CustomizationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974BDAC208F68A800EC1A25 /* CustomizationHeaderView.swift */; };
 		2974BDB42090926B00EC1A25 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2974BDB32090926B00EC1A25 /* MainTabBarController.swift */; };
@@ -931,6 +932,7 @@
 		29706CB427D9115C006EC139 /* tasks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tasks.json; sourceTree = "<group>"; };
 		29706CB627D911F5006EC139 /* XCUIApplication-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication-Extensions.swift"; sourceTree = "<group>"; };
 		2970CB51227B1A8600FACCB7 /* MarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownTests.swift; sourceTree = "<group>"; };
+		29737EEE2D38054C00480353 /* NSRange-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange-Extensions.swift"; sourceTree = "<group>"; };
 		2974BD90208DEFEA00EC1A25 /* CustomizationDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationDetailCell.swift; sourceTree = "<group>"; };
 		2974BDAC208F68A800EC1A25 /* CustomizationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizationHeaderView.swift; sourceTree = "<group>"; };
 		2974BDB32090926B00EC1A25 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -2210,12 +2212,16 @@
 		D95704371E106BF3004F6804 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				29737EEE2D38054C00480353 /* NSRange-Extensions.swift */,
+				29D50AD025F769520009CF55 /* Alignment-Extensions.swift */,
+				2909D42D2726ACBD00FF2B29 /* Binding-Extensions.swift */,
 				29255E4C1F3E25910094A3E3 /* CGRect-Extensions.swift */,
 				491C6E5A2020FE64005030A2 /* Challenge-Extensions.swift */,
 				29323E4820521FD500AC6D6F /* ContributorProtocol-Extensions.swift */,
 				29066CFE24FFA20B00A266EE /* Date-Extensions.swift */,
 				D9CE90461E4CDF3F00702578 /* Designable-Extensions.swift */,
 				D9BB45581E71AFAF0002AE2E /* Down-Extensions.swift */,
+				2959BC83275E1BDE005EE62D /* EditingFormViewController-Extensions.swift */,
 				D95704421E1528F2004F6804 /* Event-Extensions.swift */,
 				29A06E1C23ED4125003BADE9 /* InAppRewardProtocol-Extensions.swift */,
 				291448872088F3F700F3A6B5 /* NSAttributedString.swift */,
@@ -2227,9 +2233,9 @@
 				29A1B9B81F6ACC2F0055CF57 /* UIAlertAction-Extensions.swift */,
 				D96BFC4E1E191D7200266EEF /* UIAlertController-Extensions.swift */,
 				29701FDF1F560D310097BBCC /* UIApplication-Extensions.swift */,
+				29CEA821264150CA00101C0A /* UIColor-Contributor.swift */,
 				29ED1AFE1F339ACF005A3895 /* UIColor-Extensions.swift */,
 				291CE4B5231E828D0001A243 /* UIColor-Habitica.swift */,
-				29CEA821264150CA00101C0A /* UIColor-Contributor.swift */,
 				29A62B0A216CF4E200D4BD90 /* UIDevice-Extensions.swift */,
 				292AA72320FE15090022CC5F /* UIFont-Extensions.swift */,
 				293DFE3B24F5647400E115FE /* UIImage-Extensions.swift */,
@@ -2239,9 +2245,6 @@
 				29D16C8425A72211001D9A61 /* UITraitCollection-Extensions.swift */,
 				D9D17CCF1E673CCC00AD9232 /* UIView-Extensions.swift */,
 				29D50A6725F66F760009CF55 /* UIWindowScene-Extensions.swift */,
-				29D50AD025F769520009CF55 /* Alignment-Extensions.swift */,
-				2909D42D2726ACBD00FF2B29 /* Binding-Extensions.swift */,
-				2959BC83275E1BDE005EE62D /* EditingFormViewController-Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3573,6 +3576,7 @@
 				296E480821BE86F800D15E4A /* GiftSubscriptionViewController.swift in Sources */,
 				4904C7401F1ED87400F80723 /* GradientImageView.swift in Sources */,
 				2957B8CA1F4ED7C800E836EF /* Currency.swift in Sources */,
+				29737EEF2D38055000480353 /* NSRange-Extensions.swift in Sources */,
 				2974BDB62090C03E00EC1A25 /* InboxOverviewDataSource.swift in Sources */,
 				2959BC84275E1BDE005EE62D /* EditingFormViewController-Extensions.swift in Sources */,
 				29066CFB24FE83D300A266EE /* PromoBannerView.swift in Sources */,

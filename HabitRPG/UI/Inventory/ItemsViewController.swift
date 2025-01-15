@@ -59,15 +59,27 @@ class ItemsViewController: BaseTableViewController {
         navigationItem.title = L10n.Titles.items
     }
     
+    private func requestReviewForHatching() {
+        let defaults = UserDefaults.standard
+        var fedCount = defaults.integer(forKey: "pet_hatch_count")
+        fedCount += 1
+        defaults.set(fedCount, forKey: "pet_hatch_count")
+        if fedCount >= 2 {
+            UIApplication.requestReview()
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = dataSource.item(at: indexPath)
         if isHatching {
             self.isHatching = false
             if let egg = dataSource.hatchingItem as? EggProtocol, let potion = item as? HatchingPotionProtocol {
                 inventoryRepository.hatchPet(egg: egg, potion: potion).skipNil().observeValues { _ in
+                    self.requestReviewForHatching()
                 }
             } else if let egg = item as? EggProtocol, let potion = dataSource.hatchingItem as? HatchingPotionProtocol {
                 inventoryRepository.hatchPet(egg: egg, potion: potion).skipNil().observeValues { _ in
+                    self.requestReviewForHatching()
                 }
             }
         } else if let item = item {
