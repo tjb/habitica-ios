@@ -37,7 +37,6 @@ extension NSMutableAttributedString {
     }
 }
 
-@available(iOS 15, *)
 extension AttributedString {
     func withHighlightWords(words: String...) -> AttributedString {
         var text = self

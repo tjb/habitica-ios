@@ -101,14 +101,12 @@ class InventoryRepository: BaseRepository<InventoryLocalRepository> {
                 .on(value: { pet in
                     let alert = HabiticaAlertController()
                     alert.title = L10n.Inventory.hatched
-                    if #available(iOS 16.0, *) {
-                        let hostingView = UIHostingView(rootView: VStack(spacing: 8) {
-                            StableBackgroundView(content: PetView(pet: pet).padding(.top, 40), animateFlying: true).clipShape(.rect(cornerRadius: 12))
-                            Text("\(pet.text ?? "") Pet").font(.system(size: 16, weight: .medium)).foregroundColor(Color(ThemeService.shared.theme.primaryTextColor))
-                        }.ignoresSafeArea())
-                        hostingView.shouldResizeToFitContent = true
-                        alert.contentView = hostingView
-                    }
+                    let hostingView = UIHostingView(rootView: VStack(spacing: 8) {
+                        StableBackgroundView(content: PetView(pet: pet).padding(.top, 40), animateFlying: true).clipShape(.rect(cornerRadius: 12))
+                        Text("\(pet.text ?? "") Pet").font(.system(size: 16, weight: .medium)).foregroundColor(Color(ThemeService.shared.theme.primaryTextColor))
+                    }.ignoresSafeArea())
+                    hostingView.shouldResizeToFitContent = true
+                    alert.contentView = hostingView
                     alert.addAction(title: L10n.equip, isMainAction: true) { _ in
                         self?.equip(type: "pet", key: pet.key ?? "").observeCompleted {}
                     }
@@ -304,13 +302,11 @@ class InventoryRepository: BaseRepository<InventoryLocalRepository> {
                 }.on(value: { mountText in
                     let alert = HabiticaAlertController()
                     alert.title = L10n.youRaisedPet(pet.text ?? "")
-                    if #available(iOS 16.0, *) {
-                        alert.contentView = UIHostingView(rootView: VStack(spacing: 8) {
-                            StableBackgroundView(content: MountView(mount: pet).padding(.top, 30), animateFlying: false).clipShape(.rect(cornerRadius: 12))
-                            Text("\(mountText ?? "") Mount").font(.system(size: 16, weight: .medium)).foregroundColor(Color(ThemeService.shared.theme.primaryTextColor))
-                            Text("Let's go for a ride!").font(.system(size: 14)).foregroundColor(Color(ThemeService.shared.theme.secondaryTextColor))
-                        })
-                    }
+                    alert.contentView = UIHostingView(rootView: VStack(spacing: 8) {
+                        StableBackgroundView(content: MountView(mount: pet).padding(.top, 30), animateFlying: false).clipShape(.rect(cornerRadius: 12))
+                        Text("\(mountText ?? "") Mount").font(.system(size: 16, weight: .medium)).foregroundColor(Color(ThemeService.shared.theme.primaryTextColor))
+                        Text("Let's go for a ride!").font(.system(size: 14)).foregroundColor(Color(ThemeService.shared.theme.secondaryTextColor))
+                    })
                     alert.addAction(title: L10n.equip, isMainAction: true) { _ in
                         self?.equip(type: "mount", key: pet.key ?? "").observeCompleted {}
                     }
@@ -322,10 +318,6 @@ class InventoryRepository: BaseRepository<InventoryLocalRepository> {
                         alert.show()
                     }
                 }).start()
-            } else {
-                if #unavailable(iOS 16.0) {
-                    ToastManager.show(text: response?.message ?? "You fed your pet", color: .green)
-                }
             }
             if let userID = self?.currentUserId, let trained = response?.data {
                 self?.localRepository.updatePetTrained(userID: userID, key: pet.key ?? "", trained: trained, consumedFood: food)

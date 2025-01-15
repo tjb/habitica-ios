@@ -357,26 +357,24 @@ struct SubscriptionPage: View {
                                 Image(Asset.gemcapRight.name)
                             }
                             Text(L10n.resubscribeToPickUp).font(.system(size: 13))
-                            if #available(iOS 15.0, *) {
-                                GeometryReader { reader in
-                                    ZStack(alignment: .leading) {
+                            GeometryReader { reader in
+                                ZStack(alignment: .leading) {
+                                    Rectangle()
+                                        .foregroundColor(.purple100)
+                                        .fill()
+                                        .cornerRadius(4)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 8)
                                         Rectangle()
-                                            .foregroundColor(.purple100)
+                                            .foregroundColor(.green100)
                                             .fill()
                                             .cornerRadius(4)
-                                            .frame(maxWidth: .infinity)
-                                            .frame(height: 8)
-                                            Rectangle()
-                                                .foregroundColor(.green100)
-                                                .fill()
-                                                .cornerRadius(4)
-                                                .frame(width: reader.size.width * (CGFloat(viewModel.subscriptionPlan?.gemCapTotal ?? 0) / 50.0), height: 8)
-                                    }
+                                            .frame(width: reader.size.width * (CGFloat(viewModel.subscriptionPlan?.gemCapTotal ?? 0) / 50.0), height: 8)
                                 }
-                                .frame(height: 8)
-                                .padding(.top, 8)
-                                .padding(.horizontal, 41)
                             }
+                            .frame(height: 8)
+                            .padding(.top, 8)
+                            .padding(.horizontal, 41)
                         }
                         .padding(.bottom, 16)
                     }

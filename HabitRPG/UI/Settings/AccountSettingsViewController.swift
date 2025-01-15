@@ -557,17 +557,10 @@ struct ResetAccountView: View {
                 } else {
                     Text(L10n.Settings.resetAccountDescription).font(.body).foregroundColor(Color(ThemeService.shared.theme.secondaryTextColor))
                 }
-                if #available(iOS 15.0, *) {
-                    TextField(text: $text, prompt: Text(isSocial ? "RESET" : L10n.password)) {
-                    }
-                    .padding(12)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke().foregroundColor(Color(ThemeService.shared.theme.tableviewSeparatorColor)))
-                } else {
-                    TextField(text: $text) {
-                    }
-                    .padding(12)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke().foregroundColor(Color(ThemeService.shared.theme.tableviewSeparatorColor)))
+                TextField(text: $text, prompt: Text(isSocial ? "RESET" : L10n.password)) {
                 }
+                .padding(12)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke().foregroundColor(Color(ThemeService.shared.theme.tableviewSeparatorColor)))
                 HabiticaButtonUI(label: Text(L10n.Settings.resetAccount), color: Color(isValidInput() ? ThemeService.shared.theme.errorColor : ThemeService.shared.theme.dimmedColor)) {
                     onReset(text)
                 }
@@ -609,17 +602,10 @@ struct DeleteAccountView: View {
                 } else {
                     Text(L10n.Settings.deleteAccountDescription).font(.body).foregroundColor(Color(ThemeService.shared.theme.secondaryTextColor))
                 }
-                if #available(iOS 15.0, *) {
-                    TextField(text: $text, prompt: Text(isSocial ? "DELETE" : L10n.password)) {
-                    }
-                    .padding(12)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke().foregroundColor(Color(ThemeService.shared.theme.tableviewSeparatorColor)))
-                } else {
-                    TextField(text: $text) {
-                    }
-                    .padding(12)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke().foregroundColor(Color(ThemeService.shared.theme.tableviewSeparatorColor)))
+                TextField(text: $text, prompt: Text(isSocial ? "DELETE" : L10n.password)) {
                 }
+                .padding(12)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke().foregroundColor(Color(ThemeService.shared.theme.tableviewSeparatorColor)))
                 HabiticaButtonUI(label: Text(L10n.Settings.deleteAccount), color: Color(isValidInput() ? ThemeService.shared.theme.errorColor : ThemeService.shared.theme.dimmedColor)) {
                     onDelete(text)
                 }

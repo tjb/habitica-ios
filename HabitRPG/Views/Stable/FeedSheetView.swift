@@ -30,7 +30,6 @@ private class FeedSheetViewModel: ObservableObject {
     }
 }
 
-@available(iOS 16.0, *)
 struct FeedSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject fileprivate var viewModel = FeedSheetViewModel()
@@ -96,10 +95,5 @@ struct FeedSheetView: View {
 }
 
 #Preview {
-    if #available(iOS 16.0, *) {
-        return FeedSheetView { _ in
-        }
-    } else {
-       return EmptyView()
-    }
+    FeedSheetView { _ in }
 }

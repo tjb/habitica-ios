@@ -30,16 +30,12 @@ struct HourglassPromo: View {
     }
     
     var body: some View {
-        if #available(iOS 15.0, *) {
-            content
-                .task {
-                    withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
-                        animatePromoGradient = true
-                    }
+        content
+            .task {
+                withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
+                    animatePromoGradient = true
                 }
-        } else {
-            content
-        }
+            }
     }
 }
 

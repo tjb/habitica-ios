@@ -47,11 +47,7 @@ struct HabiticaButtonUI<Label: View>: View {
     }
     var body: some View {
         Button(action: onTap, label: {
-            if #available(iOS 16.0, *) {
                 label.underline(UIAccessibility.buttonShapesEnabled, color: getForegroundColor())
-            } else {
-                label
-            }
         }).buttonStyle { configuration in
             configuration.label
                 .foregroundColor(getForegroundColor())

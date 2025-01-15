@@ -76,18 +76,14 @@ class PartyViewController: SplitSocialViewController {
                     self?.noPartyContainerView.isHidden = false
                     self?.topHeaderCoordinator?.hideHeader = true
                     self?.topHeaderCoordinator?.showHideHeader(show: false)
-                    if #available(iOS 16.0, *) {
-                        self?.editGroupButton?.isHidden = true
-                    }
+                    self?.editGroupButton?.isHidden = true
                 } else {
                     self?.scrollView.isHidden = false
                     self?.noPartyContainerView?.isHidden = true
                     let showTabs = !(self?.traitCollection.horizontalSizeClass == .regular && self?.traitCollection.verticalSizeClass == .regular)
                     self?.topHeaderCoordinator?.hideHeader = !showTabs
                     self?.topHeaderCoordinator?.showHideHeader(show: showTabs)
-                    if #available(iOS 16.0, *) {
-                        self?.editGroupButton?.isHidden = false
-                    }
+                    self?.editGroupButton?.isHidden = false
                 }
             })
             .on(failed: { error in

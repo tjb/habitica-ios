@@ -39,31 +39,19 @@ class SharingManager {
 
     static func share(pet: AnimalProtocol, shareIdentifier: String = "pet") {
         var items: [Any] = []
-        if #available(iOS 16.0, *) {
-            items.append(StableBackgroundView(content: PetView(pet: pet)
-                .padding(.top, 30), animateFlying: false)
-            .frame(width: 300, height: 124)
-            .snapshot())
-        } else {
-            items.append(PetView(pet: pet)
-                .frame(width: 300, height: 124)
-                .snapshot())
-        }
+        items.append(StableBackgroundView(content: PetView(pet: pet)
+            .padding(.top, 30), animateFlying: false)
+        .frame(width: 300, height: 124)
+        .snapshot())
         SharingManager.share(identifier: shareIdentifier, items: items, presentingViewController: nil, sourceView: nil)
     }
     
     static func share(mount: AnimalProtocol, shareIdentifier: String = "mount") {
         var items: [Any] = []
-        if #available(iOS 16.0, *) {
-            items.append(StableBackgroundView(content: MountView(mount: mount)
-                .padding(.top, 30), animateFlying: false)
-            .frame(width: 300, height: 124)
-            .snapshot())
-        } else {
-            items.append(MountView(mount: mount)
-                .frame(width: 300, height: 124)
-                .snapshot())
-        }
+        items.append(StableBackgroundView(content: MountView(mount: mount)
+            .padding(.top, 30), animateFlying: false)
+        .frame(width: 300, height: 124)
+        .snapshot())
         SharingManager.share(identifier: shareIdentifier, items: items, presentingViewController: nil, sourceView: nil)
     }
     

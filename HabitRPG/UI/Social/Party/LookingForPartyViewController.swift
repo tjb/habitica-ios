@@ -256,7 +256,7 @@ struct LookingForPartyView: View {
     }
     
     var body: some View {
-        if #available(iOS 15.0, *), viewModel.hasLoadedInitialData {
+        if viewModel.hasLoadedInitialData {
             content.refreshable {
                 await viewModel.refresh()
             }

@@ -302,17 +302,15 @@ struct SubscriptionDetailViewUI: View {
     func cancelSubscription() {
         var url: URL?
         if plan.paymentMethod == "Apple" || plan.isGifted || plan.dateTerminated != nil {
-            if #available(iOS 15.0, *) {
-                if let window = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                    Task {
-                        do {
-                            try await AppStore.showManageSubscriptions(in: window)
-                        } catch {
-                            
-                        }
+            if let window = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                Task {
+                    do {
+                        try await AppStore.showManageSubscriptions(in: window)
+                    } catch {
+                        
                     }
-                    return
                 }
+                return
             }
             url = URL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")
         } else if plan.paymentMethod == "Google" {

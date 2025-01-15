@@ -377,7 +377,6 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
                 case .expired(expiryDate: _, items: let items):
                     self.processItemsForCancellation(items: items, searchedID: searchedID)
                 default:
-                    if #available(iOS 15.0, *) {
                         Task {
                             do {
                                 let statuses = try await Product.SubscriptionInfo.status(for: "20345996")
@@ -395,7 +394,6 @@ class PurchaseHandler: NSObject, SKPaymentTransactionObserver {
                             } catch let error {
                                 print(error)
                             }
-                        }
                     }
                 }
             case .error:

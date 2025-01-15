@@ -33,10 +33,8 @@ struct MountBottomSheetView: View, Dismissable {
         let theme = ThemeService.shared.theme
             
         BottomSheetView(dismisser: dismisser, title: Text(mount.text ?? ""), content: VStack(spacing: 16) {
-            if #available(iOS 16.0, *) {
-                StableBackgroundView(content: MountView(mount: mount).padding(.top, 30), animateFlying: false)
+            StableBackgroundView(content: MountView(mount: mount).padding(.top, 30), animateFlying: false)
                     .clipShape(.rect(cornerRadius: 12))
-            }
             HabiticaButtonUI(label: Text(L10n.share), color: Color(theme.fixedTintColor), size: .compact) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     SharingManager.share(mount: mount)
@@ -55,12 +53,8 @@ struct MountBottomSheetView: View, Dismissable {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
         return MountBottomSheetView(mount: PreviewMount(egg: "BearCub", potion: "Base", type: "drop", text: "Base Bear Cub"), owned: true, isCurrentMount: false, onEquip: {})
             .previewLayout(.fixed(width: 400, height: 500))
-    } else {
-        return EmptyView()
-    }
 }
 
 private class PreviewMount: MountProtocol {
