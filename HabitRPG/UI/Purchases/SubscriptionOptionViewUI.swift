@@ -98,7 +98,7 @@ struct SubscriptionOptionViewUI<Price: View, Recurring: View, Tag: View>: View {
                         HStack(spacing: 8) {
                             Image(Asset.plus.name).renderingMode(.template).foregroundColor(isSelected ? Color.yellow100 : .purple400)
                             Group {
-                                Text(isGift ? "Unlocks " : "Unlock ") +
+                                Text(isGift ? "They unlock " : "Unlock ") +
                                 Text("\(instantGems) Gems").fontWeight(.bold).foregroundColor(isSelected ? Color.yellow5 : .white) +
                                 Text(" per month in the Market")
                             }.multilineTextAlignment(.leading)
