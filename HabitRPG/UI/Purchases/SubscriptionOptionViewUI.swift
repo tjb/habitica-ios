@@ -104,8 +104,13 @@ struct SubscriptionOptionViewUI<Price: View, Recurring: View, Tag: View>: View {
                             Image(Asset.plus.name).renderingMode(.template).foregroundColor(isSelected ? Color.yellow100 : .purple400)
                             if gemCapMax {
                                 Group {
-                                    Text("Max ") +
-                                    Text("Gem Cap").fontWeight(.bold).foregroundColor(isSelected ? Color.yellow5 : .white)
+                                    if isGift {
+                                        Text("They instantly start at the max ") +
+                                        Text("Gem Cap").fontWeight(.bold).foregroundColor(isSelected ? Color.yellow5 : .white)
+                                    } else {
+                                        Text("Max ") +
+                                        Text("Gem Cap").fontWeight(.bold).foregroundColor(isSelected ? Color.yellow5 : .white)
+                                    }
                                 }.multilineTextAlignment(.leading)
                             } else {
                                 Group {

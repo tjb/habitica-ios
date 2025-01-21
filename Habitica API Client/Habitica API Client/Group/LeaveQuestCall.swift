@@ -12,7 +12,6 @@ import ReactiveSwift
 
 public class LeaveQuestCall: ResponseObjectCall<EmptyResponseProtocol, APIEmptyResponse> {
     public init(groupID: String) {
-
-        super.init(httpMethod: .POST, endpoint: "groups/\(groupID)/quest/leave", postData: nil)
+        super.init(httpMethod: .POST, endpoint: "groups/\(groupID)/quests/leave", postData: nil)
     }
 }

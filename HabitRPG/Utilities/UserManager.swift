@@ -158,6 +158,9 @@ class UserManager: NSObject {
         Analytics.setUserProperty(user.isSubscribed ? "true" : "false", forName: "is_subscribed")
         Analytics.setUserProperty(user.party?.id != nil ? "true" : "false", forName: "has_party")
         Analytics.setUserProperty("\(user.loginIncentives)", forName: "checkin_count")
+        if let notifs = user.preferences?.pushNotifications {
+            Analytics.setUserProperty("\(notifs)", forName: "allowed_push_notifications")
+        }
         #endif
     }
     

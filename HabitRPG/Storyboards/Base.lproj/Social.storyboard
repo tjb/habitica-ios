@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -502,7 +502,6 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
-                                                            <action selector="forceStartButtonTapped:" destination="h0f-kS-d60" eventType="touchUpInside" id="xcv-MT-HSH"/>
                                                             <action selector="leaveButtonTapped:" destination="h0f-kS-d60" eventType="touchUpInside" id="5im-hy-8pD"/>
                                                         </connections>
                                                     </button>
@@ -689,7 +688,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVE-dK-Vtq">
-                                            <rect key="frame" x="30" y="23" width="282" height="20"/>
+                                            <rect key="frame" x="30" y="23" width="282" height="0.0"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="500" constant="15" id="qCi-zd-vPi"/>
                                             </constraints>
@@ -698,13 +697,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5M1-O7-8SK">
-                                            <rect key="frame" x="312" y="11" width="63" height="36"/>
+                                            <rect key="frame" x="312" y="11" width="63" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="63" id="9yQ-jK-eHb"/>
                                             </constraints>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o36-K8-WE9">
-                                            <rect key="frame" x="345" y="55" width="0.0" height="0.0"/>
+                                            <rect key="frame" x="345" y="35" width="0.0" height="0.0"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" priority="500" constant="42" id="iXX-nv-dQm"/>
                                                 <constraint firstAttribute="height" priority="500" constant="21" id="pg6-HC-x8e"/>
@@ -714,14 +713,14 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bzg-8o-qvO">
-                                            <rect key="frame" x="325" y="47" width="16" height="16"/>
+                                            <rect key="frame" x="325" y="27" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="nYL-bH-Geh"/>
                                                 <constraint firstAttribute="width" constant="16" id="wMZ-47-REq"/>
                                             </constraints>
                                         </imageView>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ydi-2t-xFg" customClass="TagListView" customModule="TagListView">
-                                            <rect key="frame" x="30" y="55" width="287" height="20"/>
+                                            <rect key="frame" x="30" y="35" width="287" height="40"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="500" constant="20" id="S4z-Nh-ULl"/>
@@ -2681,11 +2680,6 @@
             <point key="canvasLocation" x="4542" y="1415"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="ydi-2t-xFg">
-            <size key="intrinsicContentSize" width="287" height="20"/>
-        </designable>
-    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="jzO-TO-nUb"/>
         <segue reference="71z-UW-WBb"/>
